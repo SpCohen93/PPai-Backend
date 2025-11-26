@@ -21,6 +21,23 @@ interface YouTubeSearchResponse {
   results: YouTubeSearchResult[];
 }
 
+interface YouTubeApiResponse {
+  items?: Array<{
+    id?: {
+      videoId?: string;
+    };
+    snippet?: {
+      title?: string;
+      channelTitle?: string;
+      thumbnails?: {
+        default?: { url?: string };
+        medium?: { url?: string };
+        high?: { url?: string };
+      };
+    };
+  }>;
+}
+
 /**
  * Netlify Function: youtubeSearch
  * 
@@ -132,10 +149,10 @@ export const handler: Handler = async (event, context) => {
       };
     }
 
-    const data = await response.json();
+    const data = await response.json() as YouTubeApiResponse;
 
     // Transform YouTube API response to our simplified format
-    const results: YouTubeSearchResult[] = (data.items || []).map((item: any) => ({
+    const results: YouTubeSearchResult[] = (data.items || []).map((item) => ({
       title: item.snippet?.title || '',
       url: `https://www.youtube.com/watch?v=${item.id?.videoId || ''}`,
       channel: item.snippet?.channelTitle || '',
