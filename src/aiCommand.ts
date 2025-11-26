@@ -103,7 +103,7 @@ export const handler: Handler = async (event, context) => {
 
     // Initialize Gemini client
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
     // Build the prompt (you can extend this to include context)
     let fullPrompt = body.prompt;
